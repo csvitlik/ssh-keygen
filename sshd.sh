@@ -9,10 +9,14 @@ SSHDPID="${DIR}/sshd.pid"
 SSHDCONF="${DIR}/sshd_config"
 
 start_sshd(){
-    $SSHD -f "$SSHDCONF"
+    $SSHD -f "$SSHDCONF" -D -d > sshd.log 2>&1 &
 }
 
 stop_sshd(){
-    [[ -e "$SSHDPID" ]] && echo $(cat "$SSHDPID")
-    rm -fv "$SSHDPID"
+    if [ -e "$SSHDPID" ]
+    then
+        echo SSH PID: $(cat "$SSHDPID")
+        kill -9 $(cat "$SSHDPID")
+        rm -fv "$SSHDPID"
+    fi
 }

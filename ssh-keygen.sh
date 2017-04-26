@@ -4,7 +4,11 @@
 
 make_client_key(){
     filename="$1"
-    ssh_keygen 0 ed25519 "$filename" "$filename"
+    ssh_keygen 0 ed25519 "$filename-ed25519" "$filename"
+    ssh_keygen 1024 dsa "$filename-dsa1024" "$filename"
+    ssh_keygen 1024 rsa "$filename-rsa1024" "$filename"
+    ssh_keygen 2048 rsa "$filename-rsa2048" "$filename"
+    ssh_keygen 384 ecdsa "$filename-ecdsa384" "$filename"
 }
 
 make_host_key(){

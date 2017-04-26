@@ -26,12 +26,19 @@ remove_hostkey(){
 
 remove_clientkey(){
     filename="$1"
-    rm -fv "$filename" "${filename}.pub"
+    for f in dsa1024 ecdsa384 ed25519 rsa1024 rsa2048
+    do
+        rm -fv -- "$filename-$f" "$filename-$f.pub"
+    done
 }
 
 test_client_key(){
     filename="$1"
-    echo "$filename" | ssh localhost -i "$filename" -p56666 -tt echo 'hello!'
+    for f in dsa1024 ecdsa384 ed25519 rsa1024 rsa2048
+    do
+        ssh localhost -i "$filename-$f" -p56666 -tt \
+            echo "=========================================\n     Hello, World!"
+    done
 }
 
 main(){
